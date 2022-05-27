@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using SBSender.Data;
+using SBSender.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+DependencieInjection(builder);
 
 var app = builder.Build();
 
@@ -29,3 +30,9 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
+void DependencieInjection(WebApplicationBuilder builder)
+{
+    // Services
+    builder.Services.AddTransient<IQueueService, QueueService>();
+}
